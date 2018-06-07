@@ -579,33 +579,63 @@ void defaultMapa(vector<vector<bool>> &pocetnaMapa);
 class Claw {
 	int x;
 	bool imaBox;
-	double brzinaKretanja;
+	double vrijemeTranzicije; //Vrijeme neophodno da se ruka pomjeri sa jedne lokacije na drugu, u milisekundama
 
 public:
-	Claw() : x(0), imaBox(true), brzinaKretanja(1) {
-		//Nacrtaj je na pocetnoj 
+	Claw() : x(0), imaBox(true), vrijemeTranzicije(1000) {
+		NacrtajClaw(0);
+		PomjeriClaw(rand() % 10);
 	}
 
 	void UbrzajKretanje() {
-		if (brzinaKretanja != 2) //Max ubrzanje 2x
-			brzinaKretanja += 0.1;
-	}
+		if (brzinaKretanja != 500) //Max ubrzanje 2x
+			brzinaKretanja -= 100;
+	} //Treba se pozivati kad built in timer izracuna neko vrijeme
 
 	void KreirajBox() {
-		if (x == 0 && !imaBox) {
+		if (x == 0 && !imaBox) 
 			imaBox = true;
-			//Dodaj Clawu kutiju
+	}
+
+	void PomjeriClaw(bool &desno) {
+		if (x < 9 && desno) {
+			for (double i(x); i < i+1; i+= (30*15)/vrijemeTranzicije)
+			{
+				NacrtajClaw(i);
+				wait(vrijemeTranzicije / 1000);
+			}
+			x++;
+		}
+			
+		else if (x > 0 && !desno) {
+			for (double i(x); i > i - 1; i -= (30 * 15) / vrijemeTranzicije)
+			{
+				NacrtajClaw(i);
+				wait(vrijemeTranzicije / 1000);
+			}
+			x--;
 		}
 	}
 
-	void PomjeriClaw(bool desno) {
-		if (x < 9 && desno)
-			x++;
-		else if (x > 0 && !desno)
-			x--;
+	void PomjeriClaw(int &pozicija) {
+		while (pozicija > x) 
+			PomjeriClaw(true);
+		
+		while (pozicija < x)
+			PomjeriClaw(false);
+
+		BaciBox();
+		PomjeriClaw(0); //Vrati je na pocetak
 	}
 
-	void NacrtajClaw(int pozicija) {
+	void BaciBox() {
+		imaBox = false;
+		NacrtajClaw(x);
+		drawBox(x, 7); // Nacrtaj box koji ce da pada, 7 je drop zone
+		//Nije dovoljno, moramo nekako simulirati mehanizam padanja
+	}
+
+	void NacrtajClaw(int &pozicija) {
 		if(!imaBox)
 			//Nacrtaj bez boxa
 		else
