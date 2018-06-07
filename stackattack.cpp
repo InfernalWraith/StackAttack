@@ -575,6 +575,44 @@ void pause();
 void CalibrateJoystick(double &Ox, double $Oy);
 void defaultMapa(vector<vector<bool>> &pocetnaMapa);
 
+
+class Claw {
+	int x;
+	bool imaBox;
+	double brzinaKretanja;
+
+public:
+	Claw() : x(0), imaBox(true), brzinaKretanja(1) {
+		//Nacrtaj je na pocetnoj 
+	}
+
+	void UbrzajKretanje() {
+		if (brzinaKretanja != 2) //Max ubrzanje 2x
+			brzinaKretanja += 0.1;
+	}
+
+	void KreirajBox() {
+		if (x == 0 && !imaBox) {
+			imaBox = true;
+			//Dodaj Clawu kutiju
+		}
+	}
+
+	void PomjeriClaw(bool desno) {
+		if (x < 9 && desno)
+			x++;
+		else if (x > 0 && !desno)
+			x--;
+	}
+
+	void NacrtajClaw(int pozicija) {
+		if(!imaBox)
+			//Nacrtaj bez boxa
+		else
+			//Nacrtaj sa boxom
+	}
+};
+
 int main() {
     display.claim(stdout);
     // Željena orijentacija
