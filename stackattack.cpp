@@ -573,7 +573,7 @@ void drawBox(int red, int kolona);
 void drawMap();
 void pause();
 void CalibrateJoystick(double &Ox, double $Oy);
-
+void defaultMapa(vector<vector<bool>> &pocetnaMapa);
 
 int main() {
     display.claim(stdout);
@@ -590,6 +590,9 @@ int main() {
     CalibrateJoystick(OffsetX, OffsetY);
 
     for(int i(0); i<6; i++) mapa.push_back(vector<bool>{0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+
+	//Dodaj tri kutije na ekran
+	defaultMapa(mapa);
 
     display.set_font((unsigned char*) Arial12x12);
     deb.start();
@@ -618,6 +621,19 @@ void drawMap(){
     }
     // Crtanje modela igrača jer je ekran obrisan
 
+}
+
+void defaultMapa(vector<vector<bool>> &pocetnaMapa) {
+	/*
+	// Advanced verzija
+	short int prvaKutija(rand() % 10), drugaKutija(rand() % 10), trecaKutija(rand() % 10);
+	while (prvaKutija == drugaKutija)
+	drugaKutija = rand() % 10;
+	while (prvaKutija == trecaKutija || drugaKutija == trecaKutija)
+	trecaKutija = rand() % 10;
+	pocetnaMapa[0][prvaKutija] = pocetnaMapa[0][drugaKutija] = pocetnaMapa[0][trecaKutija] = true;
+	*/
+	pocetnaMapa[0][2] = pocetnaMapa[0][4] = pocetnaMapa[0][6] = true;
 }
 
 void pause(){
