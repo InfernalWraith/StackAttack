@@ -588,8 +588,8 @@ public:
 	}
 
 	void UbrzajKretanje() {
-		if (brzinaKretanja != 500) //Max ubrzanje 2x
-			brzinaKretanja -= 100;
+		if (vrijemeTranzicije != 500) //Max ubrzanje 2x
+			vrijemeTranzicije -= 100;
 	} //Treba se pozivati kad built in timer izracuna neko vrijeme
 
 	void KreirajBox() {
@@ -599,19 +599,19 @@ public:
 
 	void PomjeriClaw(bool &desno) {
 		if (x < 9 && desno) {
-			for (double i(x); i < i+1; i+= (30*15)/vrijemeTranzicije)
+			for (double i(x); i < i+1; i+= 1/45)
 			{
 				NacrtajClaw(i);
-				wait(vrijemeTranzicije / 1000);
+				wait(vrijemeTranzicije / 45);
 			}
 			x++;
 		}
 			
 		else if (x > 0 && !desno) {
-			for (double i(x); i > i - 1; i -= (30 * 15) / vrijemeTranzicije)
+			for (double i(x); i > i - 1; i -=  1 / 45)
 			{
 				NacrtajClaw(i);
-				wait(vrijemeTranzicije / 1000);
+				wait(vrijemeTranzicije / 45);
 			}
 			x--;
 		}
